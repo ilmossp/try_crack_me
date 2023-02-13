@@ -1,9 +1,11 @@
 import { createTRPCRouter } from "./trpc";
-import { exampleRouter } from "./routers/example";
+import { hackerRouter } from "./routers/hacker";
+import { clientRouter } from "./routers/client";
 
 
 export const Router = createTRPCRouter({
-  router: exampleRouter,
+  hacker: hackerRouter,
+  client: clientRouter
 });
 
 // export type definition of API
