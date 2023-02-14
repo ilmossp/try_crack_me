@@ -29,7 +29,7 @@ export default function Header() {
   };
 
   return (
-    <h1 className="mt-10 ml-20 text-9xl " onMouseOver={handleHover} >
+    <h1 className="mt-10 text-9xl text-green-400 glow" onMouseOver={handleHover} >
       {title}
     </h1>
   );
