@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@faker-js/faker': ^7.6.0
   '@next/font': ^13.1.6
   '@tanstack/react-query': ^4.20.0
   '@trpc/client': ^10.9.0
@@ -41,6 +42,7 @@ dependencies:
   zod: 3.20.6
 
 devDependencies:
+  '@faker-js/faker': 7.6.0
   '@types/node': 18.13.0
   '@types/prettier': 2.7.2
   '@types/react': 18.0.27
@@ -80,6 +82,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@humanwhocodes/config-array/0.11.8:
