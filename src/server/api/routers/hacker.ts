@@ -36,14 +36,23 @@ function generatePassword(params: z.infer<typeof difficultySchema>) {
       const padding = params.numbers
         ? Math.floor(Math.random() * 100).toString()
         : shuffle(params.length - name.length);
-      name = name.padEnd(params.length,padding);
+      name = name.padEnd(params.length, padding);
     }
+    if (params.specialChars) {
+      let nameArray = name.split("");
+      for (let i = 0; i < name.length / 5; i++) {
+        nameArray[Math.floor(Math.random() * name.length)] =
+          specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+      }
+      name = nameArray.join("");
+    }
+
     return name;
   }
 }
 
+const specialChars = "!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 const letters = "abcdefghijklmnopqrstuvwxyz";
-
 function shuffle(length: number) {
   const result = "";
   while (result.length < length) {
