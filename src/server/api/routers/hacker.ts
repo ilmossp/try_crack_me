@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { faker } from "@faker-js/faker";
-import { NONAME } from "dns";
+
 const difficultySchema = z.object({
   length: z.union([z.literal(6), z.literal(8), z.literal(12), z.literal(16)]),
   specialChars: z.boolean(),
@@ -20,29 +20,34 @@ export const hackerRouter = createTRPCRouter({
       })
     )
     .query(({ input }) => {
-      const password = generatePassword(input.difficulty)
+      const password = generatePassword(input.difficulty);
       return { message: `password is : ${password}` };
     }),
 });
-
-
-
-
-
-
-
 
 function generatePassword(params: z.infer<typeof difficultySchema>) {
   if (params.length !== 16) {
     let name = faker.name.fullName().replaceAll(" ", "");
     if (!params.upperCase) name = name.toLowerCase();
-    if(name.length>params.length){
-      name = name.slice(0,params.length-1)
+    if (name.length > params.length) {
+      name = name.slice(0, params.length - 1);
     }
-    if(name.length<params.length){
-        name = name.padEnd(params.length,Math.floor(Math.random()*100).toString())
+    if (name.length < params.length) {
+      const padding = params.numbers
+        ? Math.floor(Math.random() * 100).toString()
+        : shuffle(params.length - name.length);
+      name = name.padEnd(params.length,padding);
     }
-    return name
+    return name;
   }
+}
 
+const letters = "abcdefghijklmnopqrstuvwxyz";
+
+function shuffle(length: number) {
+  const result = "";
+  while (result.length < length) {
+    result + letters[Math.floor(Math.random() * 26)];
+  }
+  return result;
 }
