@@ -6,7 +6,7 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
   
   const password = api.hacker.newChallenge.useQuery({difficulty: {
-    length: 12,
+    length: 24,
     specialChars: true,
     upperCase: false,
     numbers: true,

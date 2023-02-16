@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { generatePassword } from "../utils/password";
 
 const difficultySchema = z.object({
-  length: z.union([z.literal(6), z.literal(8), z.literal(12), z.literal(16)]),
+  length: z.union([z.literal(6), z.literal(8), z.literal(16),z.literal(24)]),
   specialChars: z.boolean(),
   upperCase: z.boolean(),
   numbers: z.boolean(),
@@ -21,7 +21,7 @@ export const hackerRouter = createTRPCRouter({
     )
     .query(({ input }) => {
       const password = generatePassword(input.difficulty);
-      return { message: `password is : ${password}` };
+      return { message: `password is : ${password} and its ${password.length} characters long` };
     }),
 });
 

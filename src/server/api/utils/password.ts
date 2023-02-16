@@ -34,6 +34,12 @@ function generatePassword(params: { length: number; upperCase: boolean; numbers:
       }
       return name;
     }
+    let password=""
+    const characters=letters+letters.toUpperCase()+specialChars+"1234567890"
+    for(let i = 0;i<16;i++){
+        password=password+characters.charAt(Math.floor(Math.random()*characters.length))
+    }
+    return password
   }
 
 
