@@ -5,7 +5,14 @@ import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   
-  
+  const password = api.hacker.newChallenge.useQuery({difficulty: {
+    length: 24,
+    specialChars: true,
+    upperCase: false,
+    numbers: true,
+    hashingMethod: "bcrypt",
+    salt: false
+  }})
   
   return (
     <>
@@ -15,6 +22,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="bg-black h-screen flex flex-col items-center">
         <Header/>
+        <span className="text-white">{password.data ? password.data.message : "loading ...."}</span>
       </main>
     </>
   );
