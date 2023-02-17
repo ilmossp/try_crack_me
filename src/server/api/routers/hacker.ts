@@ -8,7 +8,6 @@ const difficultySchema = z.object({
   upperCase: z.boolean(),
   numbers: z.boolean(),
   hashingMethod: z.enum(["Argon2", "bcrypt", "scrypt"]),
-  salt: z.boolean(),
   saltRounds: z.optional(z.number().int().max(15).min(10)),
 });
 

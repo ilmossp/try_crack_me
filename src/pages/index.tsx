@@ -11,7 +11,6 @@ const Home: NextPage =  () => {
     upperCase: false,
     numbers: true,
     hashingMethod: "bcrypt",
-    salt: false
   }}) 
   
   return (

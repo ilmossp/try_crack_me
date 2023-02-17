@@ -50,13 +50,10 @@ function generatePassword(params: difficulty) {
 function hashPassword(password: string, params: difficulty) {
   switch (params.hashingMethod) {
     case "bcrypt":
-      if (params.salt) {
-        const salt =  bcrypt.genSaltSync(params.saltRounds);
-        const hashedPassword =  bcrypt.hashSync(password, salt);
-        return hashedPassword;
-      }
-      const hashedPassword =  bcrypt.hashSync(password, 0);
+      const salt = bcrypt.genSaltSync(params.saltRounds);
+      const hashedPassword = bcrypt.hashSync(password, salt);
       return hashedPassword;
+
     case "Argon2":
       break;
     case "scrypt":
