@@ -47,15 +47,15 @@ function generatePassword(params: difficulty) {
   return password;
 }
 
-async function hashPassword(password: string, params: difficulty) {
+function hashPassword(password: string, params: difficulty) {
   switch (params.hashingMethod) {
     case "bcrypt":
       if (params.salt) {
-        const salt = await bcrypt.genSalt(params.saltRounds);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const salt =  bcrypt.genSaltSync(params.saltRounds);
+        const hashedPassword =  bcrypt.hashSync(password, salt);
         return hashedPassword;
       }
-      const hashedPassword = await bcrypt.hash(password, 0);
+      const hashedPassword =  bcrypt.hashSync(password, 0);
       return hashedPassword;
     case "Argon2":
       break;
