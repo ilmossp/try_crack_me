@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { difficulty } from "../routers/hacker";
 import * as bcrypt from "bcrypt";
+import * as argon from "argon2";
 
 const specialChars = "!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -48,16 +49,21 @@ function generatePassword(params: difficulty) {
 }
 
 function hashPassword(password: string, params: difficulty) {
+  let salt;
+  let hashedPassword;
   switch (params.hashingMethod) {
     case "bcrypt":
-      const salt = bcrypt.genSaltSync(params.saltRounds);
-      const hashedPassword = bcrypt.hashSync(password, salt);
+      salt = bcrypt.genSaltSync(params.saltRounds);
+      hashedPassword = bcrypt.hashSync(password, salt);
       return hashedPassword;
 
     case "Argon2":
-      break;
+      salt = crypto.getRandomValues(new Uint32Array(10)).toString();
+      hashedPassword = argon.hash(password + salt);
+      return hashedPassword;
     case "scrypt":
-      break;
+      
+    break;
   }
 }
 
