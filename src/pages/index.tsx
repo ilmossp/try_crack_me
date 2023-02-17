@@ -1,18 +1,19 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import Header from "../components/Header";
 import { api } from "../utils/api";
 
-const Home: NextPage = () => {
+const Home: NextPage =  () => {
+  
   
   const password = api.hacker.newChallenge.useQuery({difficulty: {
     length: 24,
     specialChars: true,
     upperCase: false,
     numbers: true,
-    hashingMethod: "bcrypt",
-    salt: false
-  }})
+    hashingMethod: "scrypt",
+  }}).data 
   
   return (
     <>
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="bg-black h-screen flex flex-col items-center">
         <Header/>
-        <span className="text-white">{password.data ? password.data.message : "loading ...."}</span>
+        <span className="text-white">{password ? password : "loading ...."}</span>
       </main>
     </>
   );
