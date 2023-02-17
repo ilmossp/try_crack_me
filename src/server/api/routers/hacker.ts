@@ -9,7 +9,7 @@ const difficultySchema = z.object({
   numbers: z.boolean(),
   hashingMethod: z.enum(["Argon2", "bcrypt", "scrypt"]),
   salt: z.boolean(),
-  saltRounds: z.optional(z.number().int().max(10).min(0)),
+  saltRounds: z.optional(z.number().int().max(15).min(10)),
 });
 
 export const hackerRouter = createTRPCRouter({
