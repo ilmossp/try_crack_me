@@ -23,7 +23,7 @@ export const hackerRouter = createTRPCRouter({
     .query(({ input }) => {
       const password = generatePassword(input.difficulty);
       const hashedPassword = hashPassword(password,input.difficulty)
-      return { hash: hashedPassword,answer: password};
+      return hashedPassword
     }),
 });
 
