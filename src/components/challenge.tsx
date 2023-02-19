@@ -23,7 +23,7 @@ let difficulties: difficulty[] = [
     upperCase: true,
     numbers: true,
     hashingMethod: "Argon2",
-  },
+  }
 ];
 
 export function Challenge() {
