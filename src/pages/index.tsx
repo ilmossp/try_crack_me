@@ -37,7 +37,7 @@ const Home: NextPage = () => {
       <main className="flex  h-screen flex-col items-center bg-gray-900 ">
         <Header />
         <div className="flex flex-row bg-gray-800 items-center rounded-md px-3 h-1/2 justify-evenly">
-          <Terminal />
+          {difficulty && <Terminal difficulty={difficulty}/>}
           <Challenge pickDifficulty={setDifficulty} />
         </div>
       </main>

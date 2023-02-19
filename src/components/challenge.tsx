@@ -51,13 +51,23 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
       <div className=" flex gap-1 rounded-md border-2 border-gray-700">
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
+            selected == 0 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
+          }`}
+          onClick={() => {
+            handleClick(0);
+          }}
+        >
+          Easy
+        </button>
+        <button
+          className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
             selected == 1 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
           }`}
           onClick={() => {
             handleClick(1);
           }}
         >
-          Easy
+          Medium
         </button>
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
@@ -67,7 +77,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
             handleClick(2);
           }}
         >
-          Medium
+          Hard
         </button>
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
@@ -75,16 +85,6 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
           }`}
           onClick={() => {
             handleClick(3);
-          }}
-        >
-          Hard
-        </button>
-        <button
-          className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
-            selected == 4 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
-          }`}
-          onClick={() => {
-            handleClick(4);
           }}
         >
           Custom
