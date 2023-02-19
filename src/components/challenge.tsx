@@ -1,9 +1,6 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { difficulty } from "../server/api/routers/hacker";
 
-type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
-};
 
 let difficulties: difficulty[] = [
   {
@@ -29,13 +26,17 @@ let difficulties: difficulty[] = [
   },
 ];
 
-export function Challenge({ pickDifficulty }: ChallengeProps) {
+export function Challenge() {
   const [selected, setSelected] = useState(0);
+  const [difficulty, setDifficulty] = useState<difficulty>();
+  const [challenge, setChallenge] = useState();
 
   function handleClick(id: number) {
     setSelected(id);
-    pickDifficulty(difficulties[selected]);
+    setDifficulty(difficulties[selected]);
   }
+
+  
 
   return (
     <div
