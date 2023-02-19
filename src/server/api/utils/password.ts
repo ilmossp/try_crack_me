@@ -2,7 +2,8 @@ import { faker } from "@faker-js/faker";
 import { difficulty } from "../routers/hacker";
 import * as bcrypt from "bcrypt";
 import * as argon from "argon2";
-import * as crypto from "crypto";
+import { scrypt, timingSafeEqual, randomBytes } from "crypto";
+import { promisify } from "util";
 
 const specialChars = "!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -58,14 +59,47 @@ async function hashPassword(password: string, params: difficulty) {
       hashedPassword = bcrypt.hash(password, salt);
       return hashedPassword;
     case "Argon2":
-      salt = crypto.getRandomValues(new Uint32Array(10)).toString();
+      salt = randomBytes(8).toString("hex");
       hashedPassword = await argon.hash(password + salt);
       return hashedPassword;
     case "scrypt":
-      salt = crypto.getRandomValues(new Uint32Array(10)).toString();
-      hashedPassword = crypto.scryptSync(password, salt, 64).toString("hex");
+      hashedPassword = await scryptHash(password);
       return hashedPassword;
   }
+}
+
+async function verifyPassword(
+  password: string,
+  params: difficulty,
+  answer: string
+) {
+  let result: boolean;
+  switch (params.hashingMethod) {
+    case "bcrypt":
+      result = await bcrypt.compare(password, answer);
+      return result;
+    case "Argon2":
+      result = await argon.verify(answer, password);
+      return result;
+    case "scrypt":
+      result = await scryptVerify(answer, password);
+  }
+}
+
+const scryptPromise = promisify(scrypt)
+
+
+async function scryptHash(password: string): Promise<string> {
+  const salt = randomBytes(16).toString("hex");
+  const derivedKey = await scryptPromise(password,salt,64)
+  return salt + ":" + (derivedKey as Buffer).toString('hex');
+}
+
+async function scryptVerify(password: string, hash: string): Promise<boolean> {
+  const [salt, key] = hash.split(":");
+  const bufferKey = Buffer.from(key);
+  const derivedKey = await scryptPromise(password,salt,64);
+  return timingSafeEqual(bufferKey,derivedKey as Buffer)
 }
 
 export { generatePassword, hashPassword };
