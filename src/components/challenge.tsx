@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { difficulty } from "../server/api/routers/hacker";
-
 
 let difficulties: difficulty[] = [
   {
@@ -23,25 +22,25 @@ let difficulties: difficulty[] = [
     upperCase: true,
     numbers: true,
     hashingMethod: "Argon2",
-  }
+  },
 ];
 
-export function Challenge() {
+type ChallengeProps = {
+  pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
+};
+
+export function Challenge({ pickDifficulty }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
-  const [difficulty, setDifficulty] = useState<difficulty>();
-  const [challenge, setChallenge] = useState();
 
   function handleClick(id: number) {
     setSelected(id);
-    setDifficulty(difficulties[selected]);
+    pickDifficulty(difficulties[selected]);
   }
-
-  
 
   return (
     <div
       className={
-        "flex h-1/2 w-1/2 flex-col items-center justify-center space-y-4 rounded-md bg-gray-800"
+        "flex h-1/2  flex-col items-center justify-center space-y-4 rounded-md"
       }
     >
       <h2 className="glow text-3xl text-green-400">challenge yourself !!!</h2>
