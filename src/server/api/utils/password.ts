@@ -59,7 +59,7 @@ async function hashPassword(password: string, params: difficulty) {
       hashedPassword = bcrypt.hash(password, salt);
       return hashedPassword;
     case "Argon2":
-      salt = randomBytes(8).toString("hex");
+      salt = randomBytes(16).toString("hex");
       hashedPassword = await argon.hash(password + salt);
       return hashedPassword;
     case "scrypt":

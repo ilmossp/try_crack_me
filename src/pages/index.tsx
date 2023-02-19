@@ -1,10 +1,14 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import { Challenge } from "../components/challenge";
 import Header from "../components/Header";
+import { difficulty } from "../server/api/routers/hacker";
 import { api } from "../utils/api";
 
 const Home: NextPage =  () => {
+  
+  const [difficulty,setDifficulty] = useState<difficulty>()
   
   
   
@@ -17,7 +21,7 @@ const Home: NextPage =  () => {
       </Head>
       <main className="bg-gray-900 h-screen flex flex-col items-center">
         <Header/>
-        <Challenge/>
+        <Challenge pickDifficulty={setDifficulty}/>
       </main>
     </>
   );
