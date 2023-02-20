@@ -59,7 +59,7 @@ async function hashPassword(password: string, params: difficulty) {
       hashedPassword = bcrypt.hash(password, salt);
       return hashedPassword;
     case "Argon2":
-      salt = randomBytes(8).toString("hex");
+      salt = randomBytes(16).toString("hex");
       hashedPassword = await argon.hash(password + salt);
       return hashedPassword;
     case "scrypt":
@@ -97,9 +97,12 @@ async function scryptHash(password: string): Promise<string> {
 
 async function scryptVerify(password: string, hash: string): Promise<boolean> {
   const [salt, key] = hash.split(":");
-  const bufferKey = Buffer.from(key);
-  const derivedKey = await scryptPromise(password,salt,64);
-  return timingSafeEqual(bufferKey,derivedKey as Buffer)
+  if(salt && key)
+  {const bufferKey = Buffer.from(key);
+    const derivedKey = await scryptPromise(password,salt,64);
+    return timingSafeEqual(bufferKey,derivedKey as Buffer);  
+  }
+  return false 
 }
 
 export { generatePassword, hashPassword };
