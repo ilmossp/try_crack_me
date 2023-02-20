@@ -33,14 +33,17 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
 
   function handleClick(id: number) {
-    setSelected(id);
-    pickDifficulty(difficulties[selected]);
+    setSelected(id+1);
   }
 
+  function handleStart(){
+    pickDifficulty(difficulties[selected-1])
+  }
+  
   return (
     <div
       className={
-        "flex h-1/2  flex-col items-center justify-center space-y-4 rounded-md"
+        "flex h-1/2  flex-col items-center justify-center space-y-4 rounded-md bg-gray-800"
       }
     >
       <h2 className="glow text-3xl text-green-400">challenge yourself !!!</h2>
@@ -51,7 +54,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
       <div className=" flex gap-1 rounded-md border-2 border-gray-700">
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
-            selected == 0 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
+            selected == 1 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
           }`}
           onClick={() => {
             handleClick(0);
@@ -61,7 +64,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
         </button>
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
-            selected == 1 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
+            selected == 2 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
           }`}
           onClick={() => {
             handleClick(1);
@@ -71,7 +74,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
         </button>
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
-            selected == 2 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
+            selected == 3 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
           }`}
           onClick={() => {
             handleClick(2);
@@ -81,7 +84,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
         </button>
         <button
           className={`rounded-md py-2 px-3 text-gray-200 transition-all hover:bg-gray-700 ${
-            selected == 3 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
+            selected == 4 ? "scale-105 bg-green-500 hover:bg-green-500" : ""
           }`}
           onClick={() => {
             handleClick(3);
@@ -93,6 +96,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
       <button
         disabled={selected ? false : true}
         className={`rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100`}
+        onClick={handleStart}
       >
         start challenge
       </button>
