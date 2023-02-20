@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { difficulty } from "../server/api/routers/hacker";
+import { Custom } from "./Custom";
 
 let difficulties: difficulty[] = [
   {
@@ -41,7 +42,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
   }
 
   return (
-    <div className="flex h-1/2 flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 p-3">
+    <div className="flex py-8 flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 px-3">
       <h2 className="glow text-3xl text-green-400">challenge yourself !!!</h2>
       <span className="mt-1 mb-2 max-w-sm text-center text-gray-200">
         start by picking a difficulty or creating your own using custom
@@ -89,6 +90,8 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
           Custom
         </button>
       </div>
+
+      {selected == 4 && <Custom/>}
       <button
         disabled={selected ? false : true}
         className="rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
