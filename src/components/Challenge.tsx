@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
@@ -40,7 +40,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
   }
 
   function handleStart(e: any) {
-    e?.preventDefault()
+    e?.preventDefault();
     console.log(difficulties);
     pickDifficulty(difficulties[selected - 1]);
   }
@@ -105,7 +105,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
               selected !== 4
                 ? handleStart
                 : (e) => {
-                    e.preventDefault()
+                    e.preventDefault();
                     const values = methods.getValues();
                     difficulties.push(values);
                     handleStart(e);
