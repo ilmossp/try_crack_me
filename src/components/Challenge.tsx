@@ -26,26 +26,22 @@ let difficulties: difficulty[] = [
 ];
 
 type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
+  pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
 };
 
 export function Challenge({ pickDifficulty }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
 
   function handleClick(id: number) {
-    setSelected(id+1);
+    setSelected(id + 1);
   }
 
-  function handleStart(){
-    pickDifficulty(difficulties[selected-1])
+  function handleStart() {
+    pickDifficulty(difficulties[selected - 1]);
   }
-  
+
   return (
-    <div
-      className={
-        "flex h-1/2  flex-col items-center justify-center space-y-4 rounded-md bg-gray-800"
-      }
-    >
+    <div className="flex h-1/2 flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 p-3">
       <h2 className="glow text-3xl text-green-400">challenge yourself !!!</h2>
       <span className="mt-1 mb-2 max-w-sm text-center text-gray-200">
         start by picking a difficulty or creating your own using custom
@@ -95,7 +91,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
       </div>
       <button
         disabled={selected ? false : true}
-        className={`rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100`}
+        className="rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
         onClick={handleStart}
       >
         start challenge
