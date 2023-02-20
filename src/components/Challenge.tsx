@@ -1,4 +1,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
+import {
+  FormProvider,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 import { difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
@@ -32,6 +38,7 @@ type ChallengeProps = {
 
 export function Challenge({ pickDifficulty }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
+  const methods = useForm<difficulty>();
 
   function handleClick(id: number) {
     setSelected(id + 1);
@@ -41,8 +48,10 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
     pickDifficulty(difficulties[selected - 1]);
   }
 
+  const submitHandler: SubmitHandler<difficulty> = (data) => console.log(data);
+
   return (
-    <div className="flex py-8 flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 px-3">
+    <div className="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 py-8 px-3">
       <h2 className="glow text-3xl text-green-400">challenge yourself !!!</h2>
       <span className="mt-1 mb-2 max-w-sm text-center text-gray-200">
         start by picking a difficulty or creating your own using custom
@@ -91,7 +100,14 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
         </button>
       </div>
 
-      {selected == 4 && <Custom/>}
+      {selected == 4 && (
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(submitHandler)}>
+            <Custom />
+            <input type="submit" />
+          </form>
+        </FormProvider>
+      )}
       <button
         disabled={selected ? false : true}
         className="rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"

@@ -1,74 +1,78 @@
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 export function Custom() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-  console.log(errors);
+  const { register } = useFormContext();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex  flex-col gap-5">
+    <div className="flex  flex-col gap-5">
       <div className="flex gap-5">
-        <div className="flex-col flex">
-            <label htmlFor="length" className="text-green-500">
-              Length
-            </label>
-            <select {...register("length", { required: true })} name="length">
-              <option value="6">6</option>
-              <option value="8">8</option>
-              <option value="12">12</option>
-              <option value="16">16</option>
-            </select>
+        <div className="flex flex-col">
+          <label htmlFor="length" className="text-green-500">
+            Length
+          </label>
+          <select {...register("length", { required: true })} name="length">
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="12">12</option>
+            <option value="16">16</option>
+          </select>
         </div>
         <div className="flex flex-col">
-            <label htmlFor="hashingMethod"className="text-green-500">Hashing Method</label>
-            <select {...register("hashingMethod", { required: true })}>
-              <option value="Argon2">Argon2</option>
-              <option value="bcrypt">bcrypt</option>
-              <option value="scrypt">scrypt</option>
-            </select>
+          <label htmlFor="hashingMethod" className="text-green-500">
+            Hashing Method
+          </label>
+          <select {...register("hashingMethod", { required: true })}>
+            <option value="Argon2">Argon2</option>
+            <option value="bcrypt">bcrypt</option>
+            <option value="scrypt">scrypt</option>
+          </select>
         </div>
         <div className="flex flex-col">
-            <label htmlFor="saltRounds" className="text-green-500">Salt Rounds</label>
-            <input
-              type="number"
-              placeholder="Salt Rounds"
-              {...register("saltRounds", { max: 20, min: 10 })}
-            />
+          <label htmlFor="saltRounds" className="text-green-500">
+            Salt Rounds
+          </label>
+          <input
+            type="number"
+            placeholder="Salt Rounds"
+            {...register("saltRounds", { max: 20, min: 10 })}
+          />
         </div>
       </div>
       <div className="flex justify-evenly">
-        <div className="flex gap-2 items-center">
-            <label htmlFor="special characters" className="text-green-500">Special Characters</label>
-            <input
-              type="checkbox"
-              placeholder="special characters"
-              {...register("specialChars", { required: true })}
-              name="special Characters"
-            />
+        <div className="flex items-center gap-2">
+          <label htmlFor="special characters" className="text-green-500">
+            Special Characters
+          </label>
+          <input
+            type="checkbox"
+            placeholder="special characters"
+            {...register("specialChars", { required: true })}
+            name="special Characters"
+          />
         </div>
-        <div className="flex gap-2 items-center">
-            <label htmlFor="numbers" className="text-green-500">Numbers</label>
-            <input
-              type="checkbox"
-              placeholder="Numbers"
-              {...register("numbers", { required: true })}
-              name="numbers"
-            />
+        <div className="flex items-center gap-2">
+          <label htmlFor="numbers" className="text-green-500">
+            Numbers
+          </label>
+          <input
+            type="checkbox"
+            placeholder="Numbers"
+            {...register("numbers", { required: true })}
+            name="numbers"
+          />
         </div>
-        <div className="flex gap-2 items-center">
-            <label htmlFor="upperCase" className="text-green-500">Upper Case</label>
-            <input
-              type="checkbox"
-              placeholder="Upper Case"
-              {...register("upperCase", { required: true })}
-              name="upperCase"
-            />
+        <div className="flex items-center gap-2">
+          <label htmlFor="upperCase" className="text-green-500">
+            Upper Case
+          </label>
+          <input
+            type="checkbox"
+            placeholder="Upper Case"
+            {...register("upperCase", { required: true })}
+            name="upperCase"
+          />
         </div>
       </div>
-    </form>
+    </div>
   );
 }
