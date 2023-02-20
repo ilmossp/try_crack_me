@@ -1,10 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import {
-  FormProvider,
-  SubmitHandler,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
@@ -44,11 +39,11 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
     setSelected(id + 1);
   }
 
-  function handleStart() {
+  function handleStart(e: any) {
+    e?.preventDefault()
+    console.log(difficulties);
     pickDifficulty(difficulties[selected - 1]);
   }
-
-  const submitHandler: SubmitHandler<difficulty> = (data) => console.log(data);
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 py-8 px-3">
@@ -100,21 +95,27 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
         </button>
       </div>
 
-      {selected == 4 && (
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(submitHandler)}>
-            <Custom />
-            <input type="submit" />
-          </form>
-        </FormProvider>
-      )}
-      <button
-        disabled={selected ? false : true}
-        className="rounded-md bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
-        onClick={handleStart}
-      >
-        start challenge
-      </button>
+      <FormProvider {...methods}>
+        <form className="flex flex-col items-center space-y-4">
+          {selected == 4 && <Custom />}
+          <button
+            disabled={selected ? false : true}
+            className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+            onClick={
+              selected !== 4
+                ? handleStart
+                : (e) => {
+                    e.preventDefault()
+                    const values = methods.getValues();
+                    difficulties.push(values);
+                    handleStart(e);
+                  }
+            }
+          >
+            start challenge
+          </button>
+        </form>
+      </FormProvider>
     </div>
   );
 }
