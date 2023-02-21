@@ -12,7 +12,7 @@ export function Terminal({ difficulty }: TerminalProps) {
   const success = "try crack this ";
 
   return (
-    <div className="h-5/6 w-60 rounded-md bg-black p-3 text-green-500">
+    <div className=" w-60 rounded-md bg-black p-3 text-green-500">
       <span>{"> "}</span>
       {isLoading ? loading : isSuccess ? success + data : ""}
     </div>

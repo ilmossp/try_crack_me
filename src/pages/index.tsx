@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
+import { Terminal } from "../components/Terminal";
 import { difficulty } from "../server/api/routers/hacker";
 
 const Home: NextPage = () => {
@@ -15,7 +16,10 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex  h-screen flex-col items-center bg-gray-900 space-y-5 ">
         <Header />
-        <Challenge pickDifficulty={setDifficulty} />
+        <div className="flex">
+          {difficulty && <Terminal difficulty={difficulty}/>}
+          <Challenge pickDifficulty={setDifficulty} />
+        </div>
       </main>
     </>
   );

@@ -41,7 +41,6 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
 
   function handleStart(e: any) {
     e?.preventDefault();
-    console.log(difficulties);
     pickDifficulty(difficulties[selected - 1]);
   }
 
