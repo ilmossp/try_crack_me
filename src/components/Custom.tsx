@@ -11,7 +11,7 @@ export function Custom() {
           <label htmlFor="length" className="text-green-500">
             Length
           </label>
-          <select {...register("length", { required: true })} name="length">
+          <select {...register("length", { required: true , valueAsNumber: true })} name="length">
             <option value="6">6</option>
             <option value="8">8</option>
             <option value="12">12</option>
@@ -35,7 +35,7 @@ export function Custom() {
           <input
             type="number"
             placeholder="Salt Rounds"
-            {...register("saltRounds", { max: 20, min: 10 })}
+            {...register("saltRounds", { max: 15, min: 10 ,valueAsNumber:true , })}
           />
         </div>
       </div>

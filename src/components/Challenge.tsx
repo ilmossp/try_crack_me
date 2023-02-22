@@ -24,7 +24,7 @@ let difficulties: difficulty[] = [
     upperCase: true,
     numbers: true,
     hashingMethod: "Argon2",
-  },
+  }
 ];
 
 type ChallengeProps = {
@@ -33,7 +33,9 @@ type ChallengeProps = {
 
 export function Challenge({ pickDifficulty }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
-  const methods = useForm<difficulty>();
+  const methods = useForm<difficulty>({defaultValues: {
+    saltRounds:10
+  }});
 
   function handleClick(id: number) {
     setSelected(id + 1);
