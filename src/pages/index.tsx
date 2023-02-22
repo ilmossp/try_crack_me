@@ -3,10 +3,17 @@ import Head from "next/head";
 import { useState } from "react";
 import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
+import { Terminal } from "../components/Terminal";
 import { difficulty } from "../server/api/routers/hacker";
+import { api } from "../utils/api";
 
 const Home: NextPage = () => {
+  
   const [difficulty, setDifficulty] = useState<difficulty>();
+  const [answer,setAnswer] = useState<string>("")
+  const {data,isSuccess,isRefetching,isError,refetch} = api.hacker.newChallenge.useQuery({difficulty},{enabled: false})
+  
+  
   return (
     <>
       <Head>
@@ -15,7 +22,10 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex  h-screen flex-col items-center bg-gray-900 space-y-5 ">
         <Header />
-        <Challenge pickDifficulty={setDifficulty} />
+        <div className="flex gap-5">
+          {difficulty && <Terminal challenge={{data,isError,isRefetching,isSuccess}}/>}
+          <Challenge pickDifficulty={setDifficulty} newChallenge={refetch} challenge={data}/>
+        </div>
       </main>
     </>
   );

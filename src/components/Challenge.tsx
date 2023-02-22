@@ -29,21 +29,35 @@ let difficulties: difficulty[] = [
 
 type ChallengeProps = {
   pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
+  newChallenge: () => void;
+  challenge: string | undefined;
 };
 
-export function Challenge({ pickDifficulty }: ChallengeProps) {
+export function Challenge({
+  pickDifficulty,
+  newChallenge,
+  challenge,
+}: ChallengeProps) {
   const [selected, setSelected] = useState(0);
-  const methods = useForm<difficulty>();
+  const methods = useForm<difficulty>({
+    defaultValues: {
+      saltRounds: 10,
+    },
+  });
+
+  const { register, getValues } = useForm<{ answer: string }>();
 
   function handleClick(id: number) {
     setSelected(id + 1);
+    pickDifficulty(difficulties[id]);
   }
 
   function handleStart(e: any) {
     e?.preventDefault();
-    console.log(difficulties);
-    pickDifficulty(difficulties[selected - 1]);
+    newChallenge();
   }
+
+  function submitAnswer() {}
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 py-8 px-3">
@@ -98,22 +112,39 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
       <FormProvider {...methods}>
         <form className="flex flex-col items-center space-y-4">
           {selected == 4 && <Custom />}
-          <button
-            disabled={selected ? false : true}
-            className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
-            onClick={
-              selected !== 4
-                ? handleStart
-                : (e) => {
-                    e.preventDefault();
-                    const values = methods.getValues();
-                    difficulties.push(values);
-                    handleStart(e);
-                  }
-            }
-          >
-            start challenge
-          </button>
+          {challenge && (
+            <input
+              type="text"
+              {...(register("answer"),
+              { required: true, minLength: 6, maxLength: 16 })}
+            />
+          )}
+          <div>
+            {challenge && (
+              <button
+                className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+                onClick={submitAnswer}
+              >
+                Submit Answer
+              </button>
+            )}
+            <button
+              disabled={selected ? false : true}
+              className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+              onClick={
+                selected !== 4
+                  ? handleStart
+                  : (e) => {
+                      e.preventDefault();
+                      const values = methods.getValues();
+                      difficulties.push(values);
+                      handleStart(e);
+                    }
+              }
+            >
+              start challenge
+            </button>
+          </div>
         </form>
       </FormProvider>
     </div>

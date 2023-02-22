@@ -9,9 +9,9 @@ const specialChars = "!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 const letters = "abcdefghijklmnopqrstuvwxyz";
 
 function shuffle(length: number) {
-  const result = "";
+  let result = "";
   while (result.length < length) {
-    result + letters[Math.floor(Math.random() * 26)];
+    result += letters[Math.floor(Math.random() * 26)];
   }
   return result;
 }
