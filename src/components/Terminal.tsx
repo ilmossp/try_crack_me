@@ -1,5 +1,5 @@
 type TerminalProps = {
-  challenge : {isLoading: boolean,
+  challenge : {
   isSuccess: boolean,
   isError: boolean,
   isRefetching: boolean,
@@ -8,7 +8,7 @@ type TerminalProps = {
 
 
 export function Terminal({ challenge }: TerminalProps) {
-  const { isLoading, isSuccess,isError,data } = challenge;
+  const { isRefetching,isSuccess,isError,data } = challenge;
 
   const loading = "awaiting challenge ...";
   const success = "try crack this ";
@@ -16,7 +16,7 @@ export function Terminal({ challenge }: TerminalProps) {
   return (
     <div className=" w-96 break-words rounded-md bg-black p-3 text-green-500">
       <span className="">{"> "}</span>
-      {isLoading ? loading : isSuccess ? success + data : ""}
+      {isRefetching ? loading : isSuccess ? success + data : "click the green to start a challenge !!! "}
     </div>
   );
 }
