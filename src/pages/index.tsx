@@ -10,7 +10,9 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
   
   const [difficulty, setDifficulty] = useState<difficulty>();
+  const [answer,setAnswer] = useState<string>("")
   const {data,isSuccess,isRefetching,isError,refetch} = api.hacker.newChallenge.useQuery({difficulty},{enabled: false})
+  
   
   return (
     <>
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
         <Header />
         <div className="flex gap-5">
           {difficulty && <Terminal challenge={{data,isError,isRefetching,isSuccess}}/>}
-          <Challenge pickDifficulty={setDifficulty} newChallenge={refetch}/>
+          <Challenge pickDifficulty={setDifficulty} newChallenge={refetch} challenge={data}/>
         </div>
       </main>
     </>
