@@ -5,9 +5,15 @@ import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
 import { Terminal } from "../components/Terminal";
 import { difficulty } from "../server/api/routers/hacker";
+import { api } from "../utils/api";
 
 const Home: NextPage = () => {
+  
   const [difficulty, setDifficulty] = useState<difficulty>();
+  const [newChallenge,setNewChallenge] = useState(false)
+  
+  const challenge = api.hacker.newChallenge.useQuery({difficulty},{enabled: newChallenge})
+  
   return (
     <>
       <Head>
@@ -16,9 +22,9 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex  h-screen flex-col items-center bg-gray-900 space-y-5 ">
         <Header />
-        <div className="flex">
-          {difficulty && <Terminal difficulty={difficulty}/>}
-          <Challenge pickDifficulty={setDifficulty} />
+        <div className="flex gap-5">
+          {difficulty && <Terminal challenge={challenge}/>}
+          <Challenge pickDifficulty={setDifficulty} newChallenge={setNewChallenge}/>
         </div>
       </main>
     </>

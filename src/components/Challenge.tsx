@@ -29,9 +29,10 @@ let difficulties: difficulty[] = [
 
 type ChallengeProps = {
   pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
+  newChallenge: Dispatch<SetStateAction<boolean>>;
 };
 
-export function Challenge({ pickDifficulty }: ChallengeProps) {
+export function Challenge({ pickDifficulty,newChallenge }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
   const methods = useForm<difficulty>({defaultValues: {
     saltRounds:10
@@ -44,6 +45,7 @@ export function Challenge({ pickDifficulty }: ChallengeProps) {
   function handleStart(e: any) {
     e?.preventDefault();
     pickDifficulty(difficulties[selected - 1]);
+    newChallenge(true);
   }
 
   return (
