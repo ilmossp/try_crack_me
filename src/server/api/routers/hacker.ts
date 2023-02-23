@@ -12,7 +12,7 @@ const difficultySchema = z.object({
   saltRounds: z.optional(z.number().int().max(15).min(10)),
 });
 
-export type difficulty = z.infer<typeof difficultySchema>;
+export type Difficulty = z.infer<typeof difficultySchema>;
 
 export const hackerRouter = createTRPCRouter({
   newChallenge: publicProcedure

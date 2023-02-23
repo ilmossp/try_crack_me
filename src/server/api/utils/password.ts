@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { difficulty } from "../routers/hacker";
+import { Difficulty } from "../routers/hacker";
 import * as bcrypt from "bcrypt";
 import * as argon from "argon2";
 import { scrypt, timingSafeEqual, randomBytes } from "crypto";
@@ -16,7 +16,7 @@ function shuffle(length: number) {
   return result;
 }
 
-function generatePassword(params: difficulty) {
+function generatePassword(params: Difficulty) {
   if (params.length !== 16) {
     let name = faker.name.fullName().replaceAll(" ", "");
     if (!params.upperCase) name = name.toLowerCase();
@@ -50,13 +50,13 @@ function generatePassword(params: difficulty) {
   return password;
 }
 
-async function hashPassword(password: string, params: difficulty) {
+async function hashPassword(password: string, params: Difficulty) {
   let salt;
   let hashedPassword;
   switch (params.hashingMethod) {
     case "bcrypt":
       salt = await bcrypt.genSalt(params.saltRounds);
-      hashedPassword = bcrypt.hash(password, salt);
+      hashedPassword = bcrypt.hash(password,salt);
       return hashedPassword;
     case "Argon2":
       salt = randomBytes(16).toString("hex");
@@ -70,7 +70,7 @@ async function hashPassword(password: string, params: difficulty) {
 
 async function verifyPassword(
   password: string,
-  params: difficulty,
+  params: Difficulty,
   answer: string
 ) {
   let result: boolean;

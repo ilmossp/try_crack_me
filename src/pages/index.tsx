@@ -4,21 +4,21 @@ import { useState } from "react";
 import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
 import { Terminal } from "../components/Terminal";
-import { difficulty } from "../server/api/routers/hacker";
+import { Difficulty } from "../server/api/routers/hacker";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
-  const [difficulty, setDifficulty] = useState<difficulty>();
+  const [difficulty, setDifficulty] = useState<Difficulty>();
   const [answer, setAnswer] = useState<string>("");
   const challenge = api.hacker.newChallenge.useQuery(
-    { difficulty: difficulty as difficulty },
+    { difficulty: difficulty as Difficulty },
     { enabled: false }
   );
   const answerValid = api.hacker.submitAnswer.useQuery(
     {
       answer,
       challenge: challenge.data as string,
-      difficulty: difficulty as difficulty,
+      difficulty: difficulty as Difficulty,
     },
     { enabled: false }
   );

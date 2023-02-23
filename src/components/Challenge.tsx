@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { difficulty } from "../server/api/routers/hacker";
+import { Difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
-let difficulties: difficulty[] = [
+let difficulties: Difficulty[] = [
   {
     length: 6,
     specialChars: false,
@@ -28,7 +28,7 @@ let difficulties: difficulty[] = [
 ];
 
 type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
+  pickDifficulty: Dispatch<SetStateAction<Difficulty|undefined>>;
   newChallenge: () => void;
   updateAnswer: Dispatch<SetStateAction<string>>,
   sendAnswer: ()=>void
@@ -43,7 +43,7 @@ export function Challenge({
   challenge
 }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
-  const methods = useForm<difficulty>({
+  const methods = useForm<Difficulty>({
     defaultValues: {
       saltRounds: 10,
     },
@@ -53,7 +53,7 @@ export function Challenge({
 
   function handleClick(id: number) {
     setSelected(id + 1);
-    pickDifficulty(difficulties[id] as difficulty);
+    pickDifficulty(difficulties[id] as Difficulty);
   }
 
   function handleStart(e: any) {
