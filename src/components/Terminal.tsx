@@ -30,7 +30,7 @@ export function Terminal({ challenge, answer }: TerminalProps) {
         ? error
         : "click the green button to start a challenge !!! "}
       <br />
-      <span className={answer.isError ? "text-red-600" : ""}>
+      <span className={answer.isError || answer.data==false ? "text-red-600" : ""}>
         {answer.isRefetching && answer.isLoading
           ? "> submitting answer ..."
           : answer.isSuccess

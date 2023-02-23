@@ -22,8 +22,8 @@ export const hackerRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const password = generatePassword(input.difficulty);
-      const hashedPassword = await hashPassword(password,input.difficulty)
+      // const password = generatePassword(input.difficulty);
+      const hashedPassword = await hashPassword("testtest",input.difficulty)
       return hashedPassword;
     }),
     submitAnswer: publicProcedure.input(z.object({

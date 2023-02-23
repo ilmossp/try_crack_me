@@ -79,10 +79,11 @@ async function verifyPassword(
       result = await bcrypt.compare(password, answer);
       return result;
     case "Argon2":
-      result = await argon.verify(answer, password);
+      result = await argon.verify(password, answer);
       return result;
     case "scrypt":
       result = await scryptVerify(answer, password);
+      return result;
   }
 }
 
@@ -94,12 +95,15 @@ async function scryptHash(password: string): Promise<string> {
   return salt + ":" + (derivedKey as Buffer).toString("hex");
 }
 
-async function scryptVerify(password: string, hash: string): Promise<boolean> {
+async function scryptVerify(
+  plainPassword: string,
+  hash: string
+): Promise<boolean> {
   const [salt, key] = hash.split(":");
   if (salt && key) {
-    const bufferKey = Buffer.from(key);
-    const derivedKey = await scryptPromise(password, salt, 64);
-    return timingSafeEqual(bufferKey, derivedKey as Buffer);
+    const bufferKey = Buffer.from(key, "hex");
+    const derivedKey = (await scryptPromise(plainPassword, salt, 64)) as Buffer;
+    return timingSafeEqual(bufferKey, derivedKey);
   }
   return false;
 }
