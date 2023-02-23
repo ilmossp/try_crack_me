@@ -1,6 +1,7 @@
+import { NodeNextResponse } from "next/dist/server/base-http/node";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { generatePassword, hashPassword } from "../utils/password";
+import { generatePassword, hashPassword, verifyPassword } from "../utils/password";
 
 const difficultySchema = z.object({
   length: z.union([z.literal(6), z.literal(8), z.literal(12), z.literal(16)]),
@@ -25,4 +26,12 @@ export const hackerRouter = createTRPCRouter({
       const hashedPassword = await hashPassword(password,input.difficulty)
       return hashedPassword;
     }),
+    submitAnswer: publicProcedure.input(z.object({
+      answer: z.string().max(16).min(6),
+      difficulty: difficultySchema,
+      challenge: z.string()
+    })).query(async ({input}) => {
+      const response = await verifyPassword(input.challenge,input.difficulty,input.answer)
+      return response
+    })
 });

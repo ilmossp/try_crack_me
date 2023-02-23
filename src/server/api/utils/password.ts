@@ -86,23 +86,22 @@ async function verifyPassword(
   }
 }
 
-const scryptPromise = promisify(scrypt)
-
+const scryptPromise = promisify(scrypt);
 
 async function scryptHash(password: string): Promise<string> {
   const salt = randomBytes(16).toString("hex");
-  const derivedKey = await scryptPromise(password,salt,64)
-  return salt + ":" + (derivedKey as Buffer).toString('hex');
+  const derivedKey = await scryptPromise(password, salt, 64);
+  return salt + ":" + (derivedKey as Buffer).toString("hex");
 }
 
 async function scryptVerify(password: string, hash: string): Promise<boolean> {
   const [salt, key] = hash.split(":");
-  if(salt && key)
-  {const bufferKey = Buffer.from(key);
-    const derivedKey = await scryptPromise(password,salt,64);
-    return timingSafeEqual(bufferKey,derivedKey as Buffer);  
+  if (salt && key) {
+    const bufferKey = Buffer.from(key);
+    const derivedKey = await scryptPromise(password, salt, 64);
+    return timingSafeEqual(bufferKey, derivedKey as Buffer);
   }
-  return false 
+  return false;
 }
 
-export { generatePassword, hashPassword };
+export { generatePassword, hashPassword, verifyPassword };
