@@ -41,37 +41,37 @@ export function Custom() {
       </div>
       <div className="flex justify-evenly">
         <div className="flex items-center gap-2">
-          <label htmlFor="special characters" className="text-green-500">
-            Special Characters
-          </label>
           <input
             type="checkbox"
             placeholder="special characters"
             {...register("specialChars", { required: true })}
             name="special Characters"
           />
+          <label htmlFor="special characters" className="text-green-500">
+            Special Characters
+          </label>
         </div>
         <div className="flex items-center gap-2">
-          <label htmlFor="numbers" className="text-green-500">
-            Numbers
-          </label>
           <input
             type="checkbox"
             placeholder="Numbers"
             {...register("numbers", { required: true })}
             name="numbers"
           />
+          <label htmlFor="numbers" className="text-green-500">
+            Numbers
+          </label>
         </div>
         <div className="flex items-center gap-2">
-          <label htmlFor="upperCase" className="text-green-500">
-            Upper Case
-          </label>
           <input
             type="checkbox"
             placeholder="Upper Case"
             {...register("upperCase", { required: true })}
             name="upperCase"
           />
+          <label htmlFor="upperCase" className="text-green-500">
+            Upper Case
+          </label>
         </div>
       </div>
     </div>
