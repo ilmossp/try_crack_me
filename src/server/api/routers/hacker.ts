@@ -1,6 +1,7 @@
+import { NodeNextResponse } from "next/dist/server/base-http/node";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { generatePassword, hashPassword } from "../utils/password";
+import { generatePassword, hashPassword, verifyPassword } from "../utils/password";
 
 const difficultySchema = z.object({
   length: z.union([z.literal(6), z.literal(8), z.literal(12), z.literal(16)]),
@@ -11,7 +12,7 @@ const difficultySchema = z.object({
   saltRounds: z.optional(z.number().int().max(15).min(10)),
 });
 
-export type difficulty = z.infer<typeof difficultySchema>;
+export type Difficulty = z.infer<typeof difficultySchema>;
 
 export const hackerRouter = createTRPCRouter({
   newChallenge: publicProcedure
@@ -21,8 +22,16 @@ export const hackerRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const password = generatePassword(input.difficulty);
-      const hashedPassword = await hashPassword(password,input.difficulty)
+      // const password = generatePassword(input.difficulty);
+      const hashedPassword = await hashPassword("testtest",input.difficulty)
       return hashedPassword;
     }),
+    submitAnswer: publicProcedure.input(z.object({
+      answer: z.string().max(16).min(6),
+      difficulty: difficultySchema,
+      challenge: z.string()
+    })).query(async ({input}) => {
+      const response = await verifyPassword(input.challenge,input.difficulty,input.answer)
+      return response
+    })
 });

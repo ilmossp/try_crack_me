@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { difficulty } from "../server/api/routers/hacker";
+import { Difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
-let difficulties: difficulty[] = [
+let difficulties: Difficulty[] = [
   {
     length: 6,
     specialChars: false,
@@ -28,28 +28,32 @@ let difficulties: difficulty[] = [
 ];
 
 type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
+  pickDifficulty: Dispatch<SetStateAction<Difficulty|undefined>>;
   newChallenge: () => void;
+  updateAnswer: Dispatch<SetStateAction<string>>,
+  sendAnswer: ()=>void
   challenge: string | undefined;
 };
 
 export function Challenge({
   pickDifficulty,
   newChallenge,
-  challenge,
+  updateAnswer,
+  sendAnswer,
+  challenge
 }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
-  const methods = useForm<difficulty>({
+  const methods = useForm<Difficulty>({
     defaultValues: {
       saltRounds: 10,
     },
   });
 
-  const { register, getValues } = useForm<{ answer: string }>();
+  
 
   function handleClick(id: number) {
     setSelected(id + 1);
-    pickDifficulty(difficulties[id]);
+    pickDifficulty(difficulties[id] as Difficulty);
   }
 
   function handleStart(e: any) {
@@ -57,7 +61,11 @@ export function Challenge({
     newChallenge();
   }
 
-  function submitAnswer() {}
+  function submitAnswer(e: any) {
+    e?.preventDefault()
+    sendAnswer()
+
+  }
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 py-8 px-3">
@@ -115,14 +123,17 @@ export function Challenge({
           {challenge && (
             <input
               type="text"
-              {...(register("answer"),
-              { required: true, minLength: 6, maxLength: 16 })}
+              onChange={
+                (e) =>{
+                  updateAnswer(e.target.value)
+                }
+              }
             />
           )}
           <div>
             {challenge && (
               <button
-                className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+                className="rounded-md  bg-green-400 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
                 onClick={submitAnswer}
               >
                 Submit Answer
