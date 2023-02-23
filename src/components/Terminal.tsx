@@ -8,19 +8,20 @@ type TerminalProps = {
   answer: {
     isSuccess: boolean;
     isError: boolean;
+    isLoading: boolean;
     isRefetching: boolean;
-    data: boolean | undefined
+    data: boolean | undefined;
   };
 };
 
-export function Terminal({ challenge,answer }: TerminalProps) {
+export function Terminal({ challenge, answer }: TerminalProps) {
   const loading = "awaiting challenge ...";
   const success = "try crack this ";
   const error = "an error occured while fetching, Try again ";
 
   return (
     <div className=" w-96 break-words rounded-md bg-black p-3 text-green-500">
-      <span className="">{"> "}</span>
+      <span className={challenge.isError ? "text-red-600" : ""}>{"> "}</span>
       {challenge.isRefetching
         ? loading
         : challenge.isSuccess
@@ -28,14 +29,16 @@ export function Terminal({ challenge,answer }: TerminalProps) {
         : challenge.isError
         ? error
         : "click the green button to start a challenge !!! "}
-        <br/>
-        <span>
-          {"> "}
-          {
-          answer.isRefetching ?
-          "submitting answer ..." : 
-          answer.isSuccess ? `your answer was ${answer.data}` : answer.isError ? "an error occured while submitting" : ""
-          }</span>
+      <br />
+      <span className={answer.isError ? "text-red-600" : ""}>
+        {answer.isRefetching && answer.isLoading
+          ? "> submitting answer ..."
+          : answer.isSuccess
+          ? `> your answer was ${answer.data}`
+          : answer.isError
+          ? "> an error occured while submitting"
+          : ""}
+      </span>
     </div>
   );
 }
