@@ -30,13 +30,15 @@ let difficulties: difficulty[] = [
 type ChallengeProps = {
   pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
   newChallenge: () => void;
+  updateAnswer: Dispatch<SetStateAction<string>>,
   challenge: string | undefined;
 };
 
 export function Challenge({
   pickDifficulty,
   newChallenge,
-  challenge,
+  updateAnswer,
+  challenge
 }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
   const methods = useForm<difficulty>({
@@ -45,7 +47,7 @@ export function Challenge({
     },
   });
 
-  const { register, getValues } = useForm<{ answer: string }>();
+  
 
   function handleClick(id: number) {
     setSelected(id + 1);
@@ -115,8 +117,11 @@ export function Challenge({
           {challenge && (
             <input
               type="text"
-              {...(register("answer"),
-              { required: true, minLength: 6, maxLength: 16 })}
+              onChange={
+                (e) =>{
+                  updateAnswer(e.target.value)
+                }
+              }
             />
           )}
           <div>

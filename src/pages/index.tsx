@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       { difficulty: difficulty as difficulty },
       { enabled: false }
     );
-
+  console.log(answer)    
   
   
   return (
@@ -34,6 +34,7 @@ const Home: NextPage = () => {
             pickDifficulty={setDifficulty}
             newChallenge={refetch}
             challenge={data}
+            updateAnswer={setAnswer}
           />
         </div>
       </main>
