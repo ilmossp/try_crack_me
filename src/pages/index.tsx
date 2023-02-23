@@ -10,14 +10,19 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
   const [difficulty, setDifficulty] = useState<difficulty>();
   const [answer, setAnswer] = useState<string>("");
-  const { data, isSuccess, isRefetching, isError, refetch } =
-    api.hacker.newChallenge.useQuery(
-      { difficulty: difficulty as difficulty },
-      { enabled: false }
-    );
-  console.log(answer)    
-  
-  
+  const challenge = api.hacker.newChallenge.useQuery(
+    { difficulty: difficulty as difficulty },
+    { enabled: false }
+  );
+  const answerValid = api.hacker.submitAnswer.useQuery(
+    {
+      answer,
+      challenge: challenge.data as string,
+      difficulty: difficulty as difficulty,
+    },
+    { enabled: false }
+  );
+
   return (
     <>
       <Head>
@@ -27,14 +32,13 @@ const Home: NextPage = () => {
       <main className="flex  h-screen flex-col items-center space-y-5 bg-gray-900 ">
         <Header />
         <div className="flex gap-5">
-          {difficulty && (
-            <Terminal challenge={{ data, isError, isRefetching, isSuccess }} />
-          )}
+          {difficulty && <Terminal challenge={challenge} answer={answerValid}/>}
           <Challenge
             pickDifficulty={setDifficulty}
-            newChallenge={refetch}
-            challenge={data}
+            newChallenge={challenge.refetch}
+            challenge={challenge.data}
             updateAnswer={setAnswer}
+            sendAnswer={answerValid.refetch}
           />
         </div>
       </main>

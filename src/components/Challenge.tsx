@@ -31,6 +31,7 @@ type ChallengeProps = {
   pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
   newChallenge: () => void;
   updateAnswer: Dispatch<SetStateAction<string>>,
+  sendAnswer: ()=>void
   challenge: string | undefined;
 };
 
@@ -38,6 +39,7 @@ export function Challenge({
   pickDifficulty,
   newChallenge,
   updateAnswer,
+  sendAnswer,
   challenge
 }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
@@ -59,7 +61,11 @@ export function Challenge({
     newChallenge();
   }
 
-  function submitAnswer() {}
+  function submitAnswer(e: any) {
+    e?.preventDefault()
+    sendAnswer()
+
+  }
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-800 py-8 px-3">
@@ -127,7 +133,7 @@ export function Challenge({
           <div>
             {challenge && (
               <button
-                className="rounded-md  bg-green-500 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+                className="rounded-md  bg-green-400 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
                 onClick={submitAnswer}
               >
                 Submit Answer
