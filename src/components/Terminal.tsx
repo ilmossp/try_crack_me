@@ -3,7 +3,7 @@ type TerminalProps = {
   isSuccess: boolean,
   isError: boolean,
   isRefetching: boolean,
-  data: string}
+  data: string | undefined}
 }
 
 

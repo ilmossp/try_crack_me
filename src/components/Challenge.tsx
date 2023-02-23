@@ -28,7 +28,7 @@ let difficulties: difficulty[] = [
 ];
 
 type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<difficulty | undefined>>;
+  pickDifficulty: Dispatch<SetStateAction<difficulty|undefined>>;
   newChallenge: () => void;
   challenge: string | undefined;
 };
@@ -49,7 +49,7 @@ export function Challenge({
 
   function handleClick(id: number) {
     setSelected(id + 1);
-    pickDifficulty(difficulties[id]);
+    pickDifficulty(difficulties[id] as difficulty);
   }
 
   function handleStart(e: any) {
