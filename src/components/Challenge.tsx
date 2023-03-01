@@ -121,7 +121,10 @@ export function Challenge({
         <form className="flex flex-col items-center space-y-4">
           {selected == 4 && <Custom />}
           {challenge && (
-            <input
+            
+          <input
+              placeholder="answer"
+              className="rounded-md py-2 px-3 bg-gray-900  focus-visible:border-green-400 text-gray-200 "
               type="text"
               onChange={
                 (e) =>{
@@ -130,10 +133,10 @@ export function Challenge({
               }
             />
           )}
-          <div>
+          <div className="flex gap-2">
             {challenge && (
               <button
-                className="rounded-md  bg-green-400 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
+                className="rounded-md  bg-purple-700 py-3 px-4 text-lg font-bold text-white transition-all hover:scale-105 disabled:bg-gray-500 disabled:hover:scale-100"
                 onClick={submitAnswer}
               >
                 Submit Answer
