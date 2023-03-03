@@ -1,6 +1,7 @@
 type TerminalProps = {
   challenge: {
     isSuccess: boolean;
+    isLoading: boolean
     isError: boolean;
     isRefetching: boolean;
     data: string | undefined;
@@ -22,7 +23,7 @@ export function Terminal({ challenge, answer }: TerminalProps) {
   return (
     <div className=" w-96 break-words rounded-md bg-black p-3 text-green-500">
       <span className={challenge.isError ? "text-red-600" : ""}>{"> "}</span>
-      {challenge.isRefetching
+      {challenge.isRefetching && challenge.isLoading
         ? loading
         : challenge.isSuccess
         ? success + challenge.data
