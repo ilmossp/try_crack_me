@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const answerValid = api.hacker.submitAnswer.useQuery(
     {
       answer,
-      challenge: challenge.data as string,
+      challenge: challenge.data as {hashedPassword:string,salt:string},
       difficulty: difficulty as Difficulty,
     },
     { enabled: false }
