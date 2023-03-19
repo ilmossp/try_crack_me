@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const answerValid = api.hacker.submitAnswer.useQuery(
     {
       answer,
-      challenge: challenge.data as string,
+      challenge: challenge.data as {hashedPassword:string,salt:string},
       difficulty: difficulty as Difficulty,
     },
     { enabled: false }
@@ -32,11 +32,11 @@ const Home: NextPage = () => {
       <main className="flex  h-screen flex-col items-center space-y-5 bg-gray-900 ">
         <Header />
         <div className="flex gap-5">
-          {difficulty && <Terminal challenge={challenge} answer={answerValid}/>}
+          {difficulty && <Terminal challenge={{...challenge,data:challenge.data?.hashedPassword}} answer={answerValid}/>}
           <Challenge
             pickDifficulty={setDifficulty}
             newChallenge={challenge.refetch}
-            challenge={challenge.data}
+            challenge={challenge.data?.hashedPassword}
             updateAnswer={setAnswer}
             sendAnswer={answerValid.refetch}
           />

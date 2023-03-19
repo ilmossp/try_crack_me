@@ -64,7 +64,6 @@ export function Challenge({
   function submitAnswer(e: any) {
     e?.preventDefault()
     sendAnswer()
-
   }
 
   return (

@@ -16,7 +16,7 @@ function shuffle(length: number) {
   return result;
 }
 
-function generatePassword(params: Difficulty) {
+export function generatePassword(params: Difficulty) {
   if (params.length !== 16) {
     let name = faker.name.fullName().replaceAll(" ", "");
     if (!params.upperCase) name = name.toLowerCase();
@@ -50,62 +50,74 @@ function generatePassword(params: Difficulty) {
   return password;
 }
 
-async function hashPassword(password: string, params: Difficulty) {
+export async function hashPassword(password: string, params: Difficulty) {
   let salt;
   let hashedPassword;
   switch (params.hashingMethod) {
     case "bcrypt":
-      salt = await bcrypt.genSalt(params.saltRounds);
-      hashedPassword = bcrypt.hash(password,salt);
-      return hashedPassword;
+    salt = await bcrypt.genSalt(params.saltRounds)    
+    hashedPassword = await bcrypt.hash(password,salt);
+      return {
+        hashedPassword, salt
+      };
     case "Argon2":
       salt = randomBytes(16).toString("hex");
       hashedPassword = await argon.hash(password + salt);
-      return hashedPassword;
+      return {
+        hashedPassword, salt
+      };
     case "scrypt":
-      hashedPassword = await scryptHash(password);
-      return hashedPassword;
+      return await scryptHash(password);
+
   }
 }
 
-async function verifyPassword(
-  password: string,
+export async function verifyPassword(
+  hash: string,
   params: Difficulty,
-  answer: string
+  answer: string,
+  salt: string
 ) {
   let result: boolean;
   switch (params.hashingMethod) {
     case "bcrypt":
-      result = await bcrypt.compare(password, answer);
+      result = await bcrypt.compare(answer, hash );
       return result;
     case "Argon2":
-      result = await argon.verify(password, answer);
+      result = await argon.verify(hash, answer + salt);
       return result;
     case "scrypt":
-      result = await scryptVerify(answer, password);
+      result = await scryptVerify(answer, hash, salt);
       return result;
   }
 }
 
+
+
+
+/**
+ * scrypt implementaion
+ * 
+ * 
+ */
+
+
+
+
 const scryptPromise = promisify(scrypt);
 
-async function scryptHash(password: string): Promise<string> {
+async function scryptHash(password: string) {
   const salt = randomBytes(16).toString("hex");
   const derivedKey = await scryptPromise(password, salt, 64);
-  return salt + ":" + (derivedKey as Buffer).toString("hex");
+  return { salt, hashedPassword: (derivedKey as Buffer).toString("hex") };
 }
 
 async function scryptVerify(
   plainPassword: string,
-  hash: string
+  hash: string,
+  salt: string
 ): Promise<boolean> {
-  const [salt, key] = hash.split(":");
-  if (salt && key) {
-    const bufferKey = Buffer.from(key, "hex");
-    const derivedKey = (await scryptPromise(plainPassword, salt, 64)) as Buffer;
-    return timingSafeEqual(bufferKey, derivedKey);
-  }
-  return false;
+  const bufferKey = Buffer.from(hash, "hex");
+  const derivedKey = (await scryptPromise(plainPassword, salt, 64)) as Buffer;
+  return timingSafeEqual(bufferKey, derivedKey);
 }
-
-export { generatePassword, hashPassword, verifyPassword };
