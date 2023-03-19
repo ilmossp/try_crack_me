@@ -55,8 +55,8 @@ export async function hashPassword(password: string, params: Difficulty) {
   let hashedPassword;
   switch (params.hashingMethod) {
     case "bcrypt":
-      salt = await bcrypt.genSalt(params.saltRounds);
-      hashedPassword = await bcrypt.hash(password, salt);
+    salt = await bcrypt.genSalt(params.saltRounds)    
+    hashedPassword = await bcrypt.hash(password,salt);
       return {
         hashedPassword, salt
       };
@@ -81,7 +81,7 @@ export async function verifyPassword(
   let result: boolean;
   switch (params.hashingMethod) {
     case "bcrypt":
-      result = await bcrypt.compare(hash, answer);
+      result = await bcrypt.compare(answer, hash );
       return result;
     case "Argon2":
       result = await argon.verify(hash, answer + salt);
