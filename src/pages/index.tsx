@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
+import { TypeOf } from "zod";
 import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
 import { Terminal } from "../components/Terminal";
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
       <main className="flex  h-screen flex-col items-center space-y-5 bg-gray-900 ">
         <Header />
         <div className="flex gap-5">
-          {difficulty && <Terminal challenge={{...challenge,data:challenge.data?.hashedPassword}} answer={answerValid}/>}
+          {difficulty && <Terminal challenge={{...challenge}} answerValid={answerValid}/>}
           <Challenge
             pickDifficulty={setDifficulty}
             newChallenge={challenge.refetch}
