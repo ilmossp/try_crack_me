@@ -1,21 +1,13 @@
+import { UseTRPCQueryResult } from "@trpc/react-query/shared";
+import { RouterOutputs } from "../utils/api";
+
 type TerminalProps = {
-  challenge: {
-    isSuccess: boolean;
-    isLoading: boolean
-    isError: boolean;
-    isRefetching: boolean;
-    data: string | undefined;
-  };
-  answer: {
-    isSuccess: boolean;
-    isError: boolean;
-    isLoading: boolean;
-    isRefetching: boolean;
-    data: boolean | undefined;
-  };
+  challenge: UseTRPCQueryResult<RouterOutputs["hacker"]["newChallenge"],{}>,
+  answerValid: UseTRPCQueryResult<RouterOutputs["hacker"]["submitAnswer"],{}>
+
 };
 
-export function Terminal({ challenge, answer }: TerminalProps) {
+export function Terminal({ challenge, answerValid: answerValid }: TerminalProps) {
   const loading = "awaiting challenge ...";
   const success = "try crack this ";
   const error = "an error occured while fetching, Try again ";
@@ -23,20 +15,20 @@ export function Terminal({ challenge, answer }: TerminalProps) {
   return (
     <div className=" w-96 break-words rounded-md bg-black p-3 text-green-500">
       <span className={challenge.isError ? "text-red-600" : ""}>{"> "}</span>
-      {challenge.isRefetching && challenge.isLoading
+      {challenge.isFetching
         ? loading
         : challenge.isSuccess
-        ? success + challenge.data
+        ? success + challenge.data.hashedPassword
         : challenge.isError
         ? error
         : "click the green button to start a challenge !!! "}
       <br />
-      <span className={answer.isError || answer.data==false ? "text-red-600" : ""}>
-        {answer.isRefetching && answer.isLoading
+      <span className={answerValid.isError || answerValid.data==false ? "text-red-600" : ""}>
+        {answerValid.isFetching
           ? "> submitting answer ..."
-          : answer.isSuccess
-          ? `> your answer was ${answer.data}`
-          : answer.isError
+          : answerValid.isSuccess
+          ? `> your answer was ${answerValid.data}`
+          : answerValid.isError
           ? "> an error occured while submitting"
           : ""}
       </span>
