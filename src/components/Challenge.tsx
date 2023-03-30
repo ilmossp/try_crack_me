@@ -28,10 +28,10 @@ let difficulties: Difficulty[] = [
 ];
 
 type ChallengeProps = {
-  pickDifficulty: Dispatch<SetStateAction<Difficulty|undefined>>;
+  pickDifficulty: Dispatch<SetStateAction<Difficulty | undefined>>;
   newChallenge: () => void;
-  updateAnswer: Dispatch<SetStateAction<string>>,
-  sendAnswer: ()=>void
+  updateAnswer: Dispatch<SetStateAction<string>>;
+  sendAnswer: () => void;
   challenge: string | undefined;
 };
 
@@ -40,16 +40,25 @@ export function Challenge({
   newChallenge,
   updateAnswer,
   sendAnswer,
-  challenge
+  challenge,
 }: ChallengeProps) {
   const [selected, setSelected] = useState(0);
   const methods = useForm<Difficulty>({
     defaultValues: {
+      hashingMethod: "bcrypt",
       saltRounds: 10,
+      length: 6,
+      numbers: false,
+      specialChars: false,
+      upperCase: false,
     },
   });
 
-  
+  let customData = methods.watch();
+  const isChanged = customData != difficulties[3] && difficulties[3] !== null;
+  if (isChanged) {
+    difficulties[3] = customData;
+  }
 
   function handleClick(id: number) {
     setSelected(id + 1);
@@ -62,8 +71,8 @@ export function Challenge({
   }
 
   function submitAnswer(e: any) {
-    e?.preventDefault()
-    sendAnswer()
+    e?.preventDefault();
+    sendAnswer();
   }
 
   return (
@@ -120,16 +129,13 @@ export function Challenge({
         <form className="flex flex-col items-center space-y-4">
           {selected == 4 && <Custom />}
           {challenge && (
-            
-          <input
+            <input
               placeholder="answer"
-              className="rounded-md py-2 px-3 bg-gray-900  focus-visible:border-green-400 text-gray-200 "
+              className="rounded-md bg-gray-900 py-2 px-3  text-gray-200 focus-visible:border-green-400 "
               type="text"
-              onChange={
-                (e) =>{
-                  updateAnswer(e.target.value)
-                }
-              }
+              onChange={(e) => {
+                updateAnswer(e.target.value);
+              }}
             />
           )}
           <div className="flex gap-2">
