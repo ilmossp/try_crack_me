@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
@@ -54,11 +54,9 @@ export function Challenge({
     },
   });
 
-  let customData = methods.watch();
-  const isChanged = customData != difficulties[3] && difficulties[3] !== null;
-  if (isChanged) {
-    difficulties[3] = customData;
-  }
+  useEffect(() => {
+    pickDifficulty(methods.watch());
+  }, [methods.watch()]);
 
   function handleClick(id: number) {
     setSelected(id + 1);
