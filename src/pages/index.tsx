@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TypeOf } from "zod";
 import { Challenge } from "../components/Challenge";
 import Header from "../components/Header";
@@ -24,6 +24,8 @@ const Home: NextPage = () => {
     { enabled: false }
   );
 
+  
+  
   return (
     <>
       <Head>
