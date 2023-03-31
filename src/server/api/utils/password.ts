@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Difficulty } from "../routers/hacker";
+import  { type Difficulty } from "../routers/hacker";
 import * as bcrypt from "bcrypt";
 import * as argon from "argon2";
 import { scrypt, timingSafeEqual, randomBytes } from "crypto";
@@ -30,7 +30,7 @@ export function generatePassword(params: Difficulty) {
       name = name.padEnd(params.length, padding);
     }
     if (params.specialChars) {
-      let nameArray = name.split("");
+      const nameArray = name.split("");
       for (let i = 0; i < name.length / 5; i++) {
         nameArray[Math.floor(Math.random() * name.length)] =
           specialChars.charAt(Math.floor(Math.random() * specialChars.length));
