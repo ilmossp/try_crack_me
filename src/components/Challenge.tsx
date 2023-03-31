@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Difficulty } from "../server/api/routers/hacker";
 import { Custom } from "./Custom";
 
-let difficulties: Difficulty[] = [
+const difficulties: Difficulty[] = [
   {
     length: 6,
     specialChars: false,
@@ -24,14 +24,14 @@ let difficulties: Difficulty[] = [
     upperCase: true,
     numbers: true,
     hashingMethod: "Argon2",
-  },
+  }
 ];
 
 type ChallengeProps = {
   pickDifficulty: Dispatch<SetStateAction<Difficulty | undefined>>;
-  newChallenge: () => void;
+  newChallenge: () => Promise<unknown>;
   updateAnswer: Dispatch<SetStateAction<string>>;
-  sendAnswer: () => void;
+  sendAnswer: () => Promise<unknown>;
   challenge: string | undefined;
 };
 
@@ -63,14 +63,14 @@ export function Challenge({
     pickDifficulty(difficulties[id] as Difficulty);
   }
 
-  function handleStart(e: any) {
-    e?.preventDefault();
-    newChallenge();
+  function handleStart(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    newChallenge().catch((error) => console.log(error))
   }
 
-  function submitAnswer(e: any) {
-    e?.preventDefault();
-    sendAnswer();
+  function submitAnswer(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    sendAnswer().catch((e)=>console.log(e));
   }
 
   return (
